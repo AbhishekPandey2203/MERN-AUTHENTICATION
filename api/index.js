@@ -10,6 +10,7 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import userRoutes from "./routes/userroute.js";
+import authRoutes from "./routes/authroute.js";
 
 //initiliaze the dotenv
 
@@ -33,6 +34,9 @@ mongoose
 
 const app = express();
 
+//inorder to recieve json-->
+app.use(express.json());
+
 //server listening at the 3000 port no
 
 app.listen(3000, () => {
@@ -43,6 +47,7 @@ app.listen(3000, () => {
 
 //let eg
 app.use("/api/user", userRoutes);
+app.use("/api/auth", authRoutes);
 
 //why we install nodemon -->the reason behind the seen is that it help to automatically run the server at any change
 //now understanding the database that we config for the mongodbatlas
