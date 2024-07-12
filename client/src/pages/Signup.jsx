@@ -59,7 +59,7 @@ export default function Signup() {
         setError(true);
         return;
       }
-      //------this help to navigate the user from signup to signin
+   //------this help to navigate the user from signup to
       navigate("/sign-in");
     } catch (error) {
       setLoading(false);

@@ -1,6 +1,18 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
+//now using the reudx way to do it-->
+
+import {
+  signInStart,
+  signInFailure,
+  signInSuccess,
+} from "../redux/user/userSlice";
+
+//also import a function a userdispatch
+
+import { useDispatch, useSelector } from "react-redux";
+
 // my- meaning margin from top and bottom -7
 
 //create a form
@@ -16,12 +28,17 @@ export default function SigIn() {
 
   // to show and loading while user sigup ------->
 
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
+  //   const [error, setError] = useState(null);
+  //   const [loading, setLoading] = useState(false);
 
+  // using the now redux way to do it
+
+  const { loading, error } = useSelector((state) => state.user);
 
   //useNavigate to navigate from the signIN to page to HomePage -->
-  const navigate=useNavigate();
+  const navigate = useNavigate();
+  //   dispatch adding
+  const dispatch = useDispatch();
 
   // define the handlechange ye jo e vo ek event ko represent kr raha h
 
@@ -41,8 +58,11 @@ export default function SigIn() {
     e.preventDefault();
 
     try {
-      setLoading(true);
-      setError(false);
+      // before request we have to be dispatch
+      dispatch(signInStart());
+
+      //   setLoading(true);
+      //   setError(false);
       // after that we make a request for our backend-->
       const res = await fetch("/api/auth/signin", {
         method: "POST",
@@ -54,22 +74,23 @@ export default function SigIn() {
       const data = await res.json();
       // console.log(data);
 
-      setLoading(false);
+      //   setLoading(false);
+
       //o view error-->
       if (data.success === false) {
-        setError(true);
+        // setError(true);
+        dispatch(signInFailure(data));
         return;
       }
+      dispatch(signInSuccess(data));
 
       //if everthing ok!!--we just navigate to homepage-->
-      navigate('/');
-
-
-
-
+      navigate("/");
     } catch (error) {
-      setLoading(false);
-      setError(true);
+      //   setLoading(false);
+      //   setError(true);
+
+      dispatch(signInFailure(error));
     }
   };
 
@@ -78,7 +99,6 @@ export default function SigIn() {
       <h1 className="text-3xl text-center font-semibold my-7">Sign In</h1>
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-      
         <input
           type="email"
           placeholder="Email"
@@ -112,7 +132,9 @@ export default function SigIn() {
         </Link>
       </div>
 
-      <p className="text-red-700 mt-5">{error && "Something went Wrong"}</p>
+      <p className="text-red-700 mt-5">
+        {error ? error.message || "Something went Wrong!" : ""}
+      </p>
     </div>
   );
 }
