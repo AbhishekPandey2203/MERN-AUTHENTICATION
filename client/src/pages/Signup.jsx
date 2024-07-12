@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // my- meaning margin from top and bottom -7
 
@@ -18,6 +18,9 @@ export default function Signup() {
 
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+
+  //useNavigate to navigate the user from signup to signin page---->mtlb phele user sigup(register) krega then phir signin krega uske baad home pe redirect hojayega
+  const navigate = useNavigate();
 
   // define the handlechange ye jo e vo ek event ko represent kr raha h
 
@@ -56,6 +59,8 @@ export default function Signup() {
         setError(true);
         return;
       }
+      //------this help to navigate the user from signup to signin
+      navigate("/sign-in");
     } catch (error) {
       setLoading(false);
       setError(true);
