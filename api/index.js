@@ -11,6 +11,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import userRoutes from "./routes/userroute.js";
 import authRoutes from "./routes/authroute.js";
+import { error } from "console";
 
 //initiliaze the dotenv
 
@@ -56,3 +57,22 @@ app.use("/api/auth", authRoutes);
 //newproject->name->add 0.0.0.0 wala addrress then conncet then cpy url password wala then mongoose.conncet
 
 //to check it return promise so handle it with the then and catch
+
+// +++++++++Understaning about the Middleware+++++++++++++++//
+//error-404,403 type
+app.use((err, req, res, next) => {
+  //500 by default port for the internal server error
+  const statuscode = err.statuscode || 500;
+  const message = err.message || "Internal Server error";
+
+  //there we return the response
+  return res.status(statuscode).json({
+    success: false,
+    message,
+    statuscode,
+  });
+});
+
+
+
+// Let understand about where to use the middleware --> so middleware hum use krte h inside auth we have req,res add next to it

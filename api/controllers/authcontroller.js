@@ -2,6 +2,7 @@
 
 import User from "../models/usermodel.js";
 import bcryptjs from "bcryptjs";
+import { errorHandler } from "../utilis/error.js";
 
 // req jo client side se milega aur response jo hum bejenge--->
 // export const signup = (req, res) => {
@@ -14,7 +15,7 @@ import bcryptjs from "bcryptjs";
 
 //+++++++++++Learning how to save data in database:++++++++++++
 
-export const signup = async (req, res) => {
+export const signup = async (req, res, next) => {
   //phele step m req.body se fetch kra aur ushe destructure kiya
   const { username, email, password } = req.body;
 
@@ -32,7 +33,9 @@ export const signup = async (req, res) => {
     await newUser.save();
     res.status(201).json({ message: "User Created Successfully" });
   } catch (error) {
-    res.status(500).json(error.message);
+    // res.status(500).json(error.message);
+    //using of middleware fucntionality--->
+    next(error);
   }
 };
 
