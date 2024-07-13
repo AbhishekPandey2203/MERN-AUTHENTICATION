@@ -12,6 +12,9 @@ import {
   updateUserFailure,
   updateUserStart,
   updateUserSuccess,
+  deleteUserFailure,
+  deleteUserStart,
+  deleteUserSuccess,
 } from "../redux/user/userSlice";
 
 //hume generally image update krne h aur system ki image chye islye we use useref function---->
@@ -90,6 +93,31 @@ export default function Profile() {
       dispatch(updateUserFailure(error));
     }
   };
+  const handleDeleteAccount = async () => {
+    try {
+      dispatch(deleteUserStart());
+      const res = await fetch(`/api/user/delete/${currentUser._id}`, {
+        method: "DELETE",
+      });
+      const data = await res.json();
+      if (data.success === false) {
+        dispatch(deleteUserFailure(data));
+        return;
+      }
+      dispatch(deleteUserSuccess(data));
+    } catch (error) {
+      dispatch(deleteUserFailure(error));
+    }
+  };
+
+  // const handleSignOut = async () => {
+  //   try {
+  //     await fetch("/api/auth/signout");
+  //     dispatch(signOut());
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  };
 
   return (
     <div className="p-3 max-w-lg mx-auto">
@@ -157,7 +185,12 @@ export default function Profile() {
       </form>
 
       <div className="flex justify-between mt-5">
-        <span className="text-red-700 cursor-pointer">Delete Account</span>
+        <span
+          onClick={handleDeleteAccount}
+          className="text-red-700 cursor-pointer"
+        >
+          Delete Account
+        </span>
         <span className="text-red-700 cursor-pointer">Sign Out</span>
       </div>
 

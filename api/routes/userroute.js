@@ -1,5 +1,5 @@
 import express from "express";
-import { test, updateUser } from "../controllers/usercontroller.js";
+import { test, updateUser,deleteUser } from "../controllers/usercontroller.js";
 import { verifyToken } from "../utilis/verifyUser.js";
 
 const router = express.Router();
@@ -9,6 +9,7 @@ const router = express.Router();
 router.get("/", test);
 
 router.post("/update/:id", verifyToken, updateUser);
+router.delete("/delete/:id",verifyToken, deleteUser);
 
 
 //updateuser ko define krenge controller ke andar
