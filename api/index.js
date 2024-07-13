@@ -12,6 +12,7 @@ import dotenv from "dotenv";
 import userRoutes from "./routes/userroute.js";
 import authRoutes from "./routes/authroute.js";
 import cookieParser from "cookie-parser";
+import path from "path";
 
 //initiliaze the dotenv
 
@@ -32,6 +33,7 @@ mongoose
   });
 
 //making an app
+const _dirname = path.resolve();
 
 const app = express();
 

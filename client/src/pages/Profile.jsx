@@ -15,7 +15,7 @@ import {
   deleteUserFailure,
   deleteUserStart,
   deleteUserSuccess,
-  signOut,
+  signout,
 } from "../redux/user/userSlice";
 
 //hume generally image update krne h aur system ki image chye islye we use useref function---->
@@ -114,7 +114,7 @@ export default function Profile() {
   const handleSignOut = async () => {
     try {
       await fetch("/api/auth/signout");
-      dispatch(signOut());
+      dispatch(signout());
     } catch (error) {
       console.log(error);
     }
