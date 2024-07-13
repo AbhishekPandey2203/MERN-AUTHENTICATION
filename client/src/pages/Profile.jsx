@@ -15,6 +15,7 @@ import {
   deleteUserFailure,
   deleteUserStart,
   deleteUserSuccess,
+  signOut,
 } from "../redux/user/userSlice";
 
 //hume generally image update krne h aur system ki image chye islye we use useref function---->
@@ -110,13 +111,13 @@ export default function Profile() {
     }
   };
 
-  // const handleSignOut = async () => {
-  //   try {
-  //     await fetch("/api/auth/signout");
-  //     dispatch(signOut());
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
+  const handleSignOut = async () => {
+    try {
+      await fetch("/api/auth/signout");
+      dispatch(signOut());
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -191,7 +192,9 @@ export default function Profile() {
         >
           Delete Account
         </span>
-        <span className="text-red-700 cursor-pointer">Sign Out</span>
+        <span onClick={handleSignOut} className="text-red-700 cursor-pointer">
+          Sign Out
+        </span>
       </div>
 
       <p className="text-red-700 mt-5">{error && "Something went Wrong!"}</p>

@@ -159,3 +159,8 @@ export const google = async (req, res, next) => {
 
 //++++++++++understanding of using the bcyrptjs --->to hash the password++++++++
 // steps are: password mila
+
+// creating a signout functionality--->
+export const signout = (req, res) => {
+  res.clearCookie("access_token").status(200).json("Signout success!");
+};
