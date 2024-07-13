@@ -70,13 +70,88 @@ export const signin = async (req, res, next) => {
     const { password: hashedPassword, ...rest } = validUser._doc;
 
     //
-    const expiryDate = new Date(Date.now() + 3600000);
+    const expiryDate = new Date(Date.now() + 3600000); //1hour
 
     //put the cookie at the client side,inside the browser cookie
     res
       .cookie("access_token", token, { httpOnly: true, expires: expiryDate })
       .status(200)
       .json(rest);
+  } catch (error) {
+    next(error);
+  }
+};
+
+// making a functionality what they do for google routing
+export const google = async (req, res, next) => {
+  //now what they do
+  try {
+    //user ko find kiya
+    const user = await User.findOne({ email: req.body });
+    //if user already exist
+    if (user) {
+      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+
+      // it is a bad practice to sent the password at the client side, so destructure it password bhar likal liya aur baki sab hashed password m bej diya
+
+      //validuser._doc issme use jo _doc vo ek start point h mongodb ek andar ka bydefault islye use krna hoga
+      const { password: hashedPassword, ...rest } = user._doc;
+
+      //
+      const expiryDate = new Date(Date.now() + 3600000); //1hour
+
+      //put the cookie at the client side,inside the browser cookie
+      res
+        .cookie("access_token", token, {
+          httpOnly: true,
+          expires: expiryDate,
+        })
+        .status(200)
+        .json(rest);
+    } else {
+      //now if new user from google authe we create a password for them
+
+      const generatedPassword =
+        Math.random().toString(36).slice(-8) +
+        Math.random().toString(36).slice(-8);
+
+      //now jo password generate hua usko hash m krna hoga
+
+      const hashedPassword = bcryptjs.hashSync(generatedPassword, 10);
+
+      //ab humne ek new user bnaya h aur user name unique krne ke liye itna sb kuch kiya h
+      const newUser = new User({
+        username:
+          req.body.name.split(" ").join("").toLowerCase() +
+          Math.random().toString(36).slice(-8),
+        email: req.body.email,
+        password: hashedPassword,
+        profilePicture: req.body.photo,
+      });
+
+      //database m save krna
+
+      await newUser.save();
+
+      const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET);
+
+      // it is a bad practice to sent the password at the client side, so destructure it password bhar likal liya aur baki sab hashed password m bej diya
+
+      //validuser._doc issme use jo _doc vo ek start point h mongodb ek andar ka bydefault islye use krna hoga
+      const { password: hashedPassword2, ...rest } = newUser._doc;
+
+      //
+      const expiryDate = new Date(Date.now() + 3600000); //1hour
+
+      //put the cookie at the client side,inside the browser cookie
+      res
+        .cookie("access_token", token, {
+          httpOnly: true,
+          expires: expiryDate,
+        })
+        .status(200)
+        .json(rest);
+    }
   } catch (error) {
     next(error);
   }

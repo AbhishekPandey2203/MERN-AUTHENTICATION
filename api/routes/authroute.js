@@ -1,6 +1,6 @@
 //authentication---part
 import express from "express";
-import { signin, signup } from "../controllers/authcontroller.js";
+import { google, signin, signup } from "../controllers/authcontroller.js";
 
 const router = express.Router();
 
@@ -8,7 +8,9 @@ const router = express.Router();
 
 router.post("/signup", signup);
 router.post("/signin", signin);
+router.post("/google",google);
 
 //ab ye post method h so we cannot u our browser to test it and hence use postmanapi -->
 
+//ab google route pe ja kr kya hoga ye hum define krenge controller section m
 export default router;

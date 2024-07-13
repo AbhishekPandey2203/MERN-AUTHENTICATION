@@ -12,6 +12,7 @@ import {
 //also import a function a userdispatch
 
 import { useDispatch, useSelector } from "react-redux";
+import OAuth from "../components/OAuth";
 
 // my- meaning margin from top and bottom -7
 
@@ -120,6 +121,8 @@ export default function SigIn() {
         >
           {loading ? "Loading..." : "SignIn"}
         </button>
+        {/* Adding the Oauth component for adding continue with google functionality */}
+        <OAuth/>
       </form>
 
       {/* using the another div for have an account functionality-- */}

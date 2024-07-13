@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import OAuth from "../components/OAuth";
 
 // my- meaning margin from top and bottom -7
 
@@ -100,6 +101,7 @@ export default function Signup() {
         >
           {loading ? "Loading..." : "Signup"}
         </button>
+        <OAuth/>
       </form>
 
       {/* using the another div for have an account functionality-- */}
