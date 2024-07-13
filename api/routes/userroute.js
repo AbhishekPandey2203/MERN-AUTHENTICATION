@@ -1,5 +1,6 @@
 import express from "express";
-import { test } from "../controllers/usercontroller.js";
+import { test, updateUser } from "../controllers/usercontroller.js";
+import { verifyToken } from "../utilis/verifyUser.js";
 
 const router = express.Router();
 
@@ -7,6 +8,10 @@ const router = express.Router();
 
 router.get("/", test);
 
+router.post("/update/:id", verifyToken, updateUser);
+
+
+//updateuser ko define krenge controller ke andar
 //smje test kaha se aa raha h ye router controller se--->
 
 export default router;

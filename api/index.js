@@ -11,7 +11,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import userRoutes from "./routes/userroute.js";
 import authRoutes from "./routes/authroute.js";
-import { error } from "console";
+import cookieParser from "cookie-parser";
 
 //initiliaze the dotenv
 
@@ -37,6 +37,9 @@ const app = express();
 
 //inorder to recieve json-->
 app.use(express.json());
+
+//using the cookie parser it help to use and pass cookie in our application
+app.use(cookieParser());
 
 //server listening at the 3000 port no
 
@@ -72,7 +75,5 @@ app.use((err, req, res, next) => {
     statuscode,
   });
 });
-
-
 
 // Let understand about where to use the middleware --> so middleware hum use krte h inside auth we have req,res add next to it
