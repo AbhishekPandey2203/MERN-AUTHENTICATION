@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 
+import { useSelector } from "react-redux";
+
 // Now understanding the making of How a header component make using the help of tailwind-css
 // now for making home sigin signup one we make under it using the lsit component
 
@@ -17,6 +19,9 @@ import { Link } from "react-router-dom";
 // routes set up kr diya
 
 export default function Header() {
+  //make a function to select user
+  const { currentUser } = useSelector((state) => state.user);
+
   return (
     <div className="bg-slate-200">
       <div className="flex justify-between items-center max-w-6xl mx-auto p-3">
@@ -33,12 +38,18 @@ export default function Header() {
             {" "}
             <li>About</li>
           </Link>
-          <Link to="/sign-in">
-            {" "}
-            <li>Sign IN</li>
+          {/* now sign in agr h toh change krdo profile picture nhi toh vase rhne do  aur redirect krdo profile component pe*/}
+          <Link to="/profile">
+            {currentUser ? (
+              //adding the image
+              <img src={currentUser.profilePicture} alt="profile"  className="h-7 w-7 rounded-full object-cover"/>
+            ) : (
+              <li>Sign IN</li>
+            )}
           </Link>
         </ul>
       </div>
     </div>
   );
 }
+// h:hight ,w width ,rounded-full circle ke liye 

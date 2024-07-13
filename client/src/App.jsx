@@ -9,6 +9,7 @@ import Signin from "./pages/Signin";
 import Signup from "./pages/Signup";
 import Profile from "./pages/Profile";
 import Header from "./components/Header";
+import PrivateRoute from "./components/PrivateRoute";
 
 // everything now cover under the browser route-->
 //ab browser route h now unke andar routes and then sepcify each routes
@@ -27,15 +28,18 @@ import Header from "./components/Header";
 export default function App() {
   return (
     <BrowserRouter>
-    {/*  If we create Header here we get a chance to Available it to all pages*/}
-    <Header/>
+      {/*  If we create Header here we get a chance to Available it to all pages*/}
+      <Header />
       <Routes>
         <Route path="/" element={<Home />}></Route>
         <Route path="/about" element={<About />}></Route>
         <Route path="/sign-in" element={<Signin />}></Route>
         <Route path="/sign-up" element={<Signup />}></Route>
-        <Route path="/profile" element={<Profile />}></Route>
+        <Route element={<PrivateRoute />}>
+          <Route path="/profile" element={<Profile />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );
 }
+// Jo profile h ushe cover krenge apne private route se
