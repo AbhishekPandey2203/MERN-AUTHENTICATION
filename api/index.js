@@ -33,9 +33,18 @@ mongoose
   });
 
 //making an app
-const _dirname = path.resolve();
+const __dirname = path.resolve();
 
 const app = express();
+
+//for rendering puropse
+
+app.use(express.static(path.join(__dirname, "/client/dist")));
+
+//for deploying purpose
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
+});
 
 //inorder to recieve json-->
 app.use(express.json());
@@ -79,3 +88,6 @@ app.use((err, req, res, next) => {
 });
 
 // Let understand about where to use the middleware --> so middleware hum use krte h inside auth we have req,res add next to it
+
+// one thing to remember for frontend-npm run dev
+//for backend -npm run dev
